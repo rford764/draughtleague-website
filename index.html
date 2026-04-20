@@ -85,14 +85,21 @@
   }
   .hero-label::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
 
-  .hero-banner {
+ <!-- .hero-banner {
     display: block;
     width: 100%;
     max-width: 420px;
     height: auto;
     margin-bottom: 32px;
+  }-->
+  .hero-banner {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    margin-bottom: 32px;
+    border-radius: 12px;
   }
-
   .hero h1 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(42px, 5.5vw, 72px);
@@ -258,13 +265,13 @@
   }
   .step:hover { background: white; }
 
-  .step-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 900;
-    color: var(--green-light);
-    line-height: 1;
-    margin-bottom: 20px;
+ .step-num {
+   font-family: 'Playfair Display', serif;
+   font-size: 48px;
+   font-weight: 900;
+   color: var(--green);
+   line-height: 1;
+   margin-bottom: 20px;
   }
   .step h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
   .step p { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
@@ -467,7 +474,8 @@
   <section class="hero">
     <div class="hero-content">
       <div class="hero-label">Now available on iOS & Android</div>
-      <img src="./assets/draughtleague-logo.svg" alt="DraughtLeague" class="hero-banner">
+     <img src="./assets/feature-graphic.png" alt="DraughtLeague" class="hero-banner">
+     <!--<img src="./assets/draughtleague-logo.svg" alt="DraughtLeague" class="hero-banner">-->
       <h1>Turn every outing into <em>a game</em></h1>
       <p>DraughtLeague blends the excitement of fantasy sports with real-world experiences. Join a league, check in at breweries, wineries and distilleries, earn points and compete with friends.</p>
       <div class="hero-buttons">
