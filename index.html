@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DraughtLeague — Turn Every Outing Into a Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --cream: #FAF7F0;
+    --ink: #1A1A18;
+    --ink-muted: #5A5A54;
+    --gold: #C8922A;
+    --amber: #EF9F27;
+    --border: rgba(26,26,24,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(250,247,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.3px; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--cream) !important; padding: 10px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--green-dark) !important; color: #fff !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    gap: 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
+  }
+  .hero-label::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5.5vw, 72px);
+    line-height: 1.06;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .hero h1 em { color: var(--green); font-style: italic; }
+
+  .hero p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-muted);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  .hero-buttons { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--ink); color: var(--cream);
+    padding: 16px 28px; border-radius: 100px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--ink);
+    padding: 16px 28px; border-radius: 100px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .phone-mockup {
+    width: 280px;
+    background: var(--ink);
+    border-radius: 44px;
+    padding: 12px;
+    box-shadow: 0 40px 80px rgba(26,26,24,0.2), 0 0 0 1px rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 2;
+  }
+
+  .phone-screen {
+    background: #111;
+    border-radius: 36px;
+    overflow: hidden;
+    aspect-ratio: 9/19.5;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phone-header {
+    background: #1A1A18;
+    padding: 20px 16px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .phone-app-name { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--green); font-weight: 700; margin-bottom: 2px; }
+  .phone-greeting { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+  .phone-rank-card {
+    margin: 12px;
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rank-label { font-size: 10px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+  .rank-num { font-family: 'Playfair Display', serif; font-size: 28px; color: #fff; font-weight: 700; line-height: 1; }
+  .rank-pts { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; margin-top: 2px; }
+  .rank-badge { background: rgba(255,255,255,0.15); border-radius: 10px; padding: 8px 12px; text-align: center; }
+  .rank-badge-label { font-size: 9px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
+  .rank-badge-val { font-size: 16px; color: #fff; font-weight: 700; }
+
+  .phone-section { padding: 10px 12px 6px; }
+  .phone-section-title { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+
+  .leaderboard-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .lb-rank { font-size: 11px; color: rgba(255,255,255,0.35); width: 18px; text-align: center; }
+  .lb-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .lb-name { font-size: 12px; color: rgba(255,255,255,0.85); flex: 1; }
+  .lb-pts { font-size: 11px; color: var(--green); font-weight: 600; }
+  .lb-you { color: var(--amber) !important; }
+  .lb-avatar-you { background: var(--amber) !important; }
+
+  .floating-card {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: 0 8px 24px rgba(26,26,24,0.12);
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 3;
+  }
+  .fc-left { left: -60px; top: 30%; }
+  .fc-right { right: -60px; bottom: 25%; }
+  .fc-icon { font-size: 18px; margin-bottom: 4px; }
+  .fc-val { font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .fc-label { font-size: 11px; color: var(--ink-muted); }
+
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.25;
+    z-index: 0;
+  }
+  .blob1 { width: 400px; height: 400px; background: var(--green); top: -80px; right: -80px; }
+  .blob2 { width: 300px; height: 300px; background: var(--amber); bottom: -60px; right: 40px; }
+
+  /* HOW IT WORKS */
+  .section { padding: 100px 48px; max-width: 1280px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.8px;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .section-sub { font-size: 17px; color: var(--ink-muted); line-height: 1.7; max-width: 560px; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    background: var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: var(--cream);
+    padding: 40px 32px;
+    position: relative;
+  }
+  .step:hover { background: white; }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--green-light);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .step h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+  .step p { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 60px;
+  }
+
+  .feature-card {
+    background: var(--cream);
+    padding: 40px 36px;
+    transition: background 0.2s;
+  }
+  .feature-card:hover { background: white; }
+
+  .feature-icon {
+    width: 48px; height: 48px;
+    background: var(--green-light);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+  .feature-card p { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* FOR OWNERS */
+  .owners-section {
+    background: var(--ink);
+    color: white;
+    padding: 100px 48px;
+  }
+  .owners-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .owners-section .section-label { color: var(--amber); }
+  .owners-section .section-title { color: white; }
+  .owners-section .section-sub { color: rgba(255,255,255,0.6); }
+
+  .owner-perks { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+  .owner-perk { display: flex; gap: 16px; align-items: flex-start; }
+  .perk-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .owner-perk h4 { font-size: 16px; font-weight: 600; color: white; margin-bottom: 4px; }
+  .owner-perk p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  .owner-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; }
+  .owner-stat { background: rgba(255,255,255,0.04); padding: 32px; }
+  .owner-stat-val { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 8px; }
+  .owner-stat-label { font-size: 14px; color: rgba(255,255,255,0.5); }
+
+  /* LEAGUE TYPES */
+  .league-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+  .league-type-card {
+    border-radius: 20px; padding: 36px 32px;
+    background: white;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .league-type-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(26,26,24,0.08); }
+  .lt-emoji { font-size: 32px; margin-bottom: 16px; display: block; }
+  .lt-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .lt-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* CTA */
+  .cta-section {
+    padding: 120px 48px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .cta-section .section-title { font-size: clamp(36px, 5vw, 64px); }
+  .cta-section p { font-size: 18px; color: var(--ink-muted); margin: 20px auto 48px; max-width: 480px; line-height: 1.7; }
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  .store-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--ink); color: var(--cream);
+    padding: 14px 24px; border-radius: 14px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .store-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .store-btn-icon { font-size: 24px; }
+  .store-btn-text { text-align: left; }
+  .store-btn-sub { font-size: 10px; color: rgba(255,255,255,0.6); display: block; }
+  .store-btn-name { font-size: 16px; font-weight: 600; color: white; display: block; line-height: 1.2; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    padding: 48px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.7); }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: white; }
+  .footer-logo span { color: var(--green); }
+  .footer-links { display: flex; gap: 24px; }
+
+  /* DIVIDER */
+  .divider { width: 100%; height: 1px; background: var(--border); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-content > * { animation: fadeUp 0.6s ease both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-visual { animation: fadeUp 0.8s ease 0.3s both; }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 60px; }
+    .hero-visual { display: none; }
+    .section { padding: 60px 24px; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .league-types { grid-template-columns: 1fr; }
+    .owners-inner { grid-template-columns: 1fr; }
+    .owners-section { padding: 60px 24px; }
+    footer { padding: 32px 24px; }
+    .footer-inner { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Draught<span>League</span></a>
+  <div class="nav-links">
+    <a href="#how-it-works">How it works</a>
+    <a href="#for-owners">For owners</a>
+    <a href="#leagues">Leagues</a>
+    <a href="#download" class="nav-cta">Download</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1280px;margin:0 auto;">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Now available on iOS & Android</div>
+      <h1>Turn every outing into <em>a game</em></h1>
+      <p>DraughtLeague blends the excitement of fantasy sports with real-world experiences. Join a league, check in at breweries, wineries and distilleries, earn points and compete with friends.</p>
+      <div class="hero-buttons">
+        <a href="#download" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store
+        </a>
+        <a href="#download" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.98.15l12.87-7.43-2.81-2.81-11.04 10.09zm-1.6-19.2c-.1.22-.16.47-.16.76v17.37c0 .29.06.54.16.76l.09.09 9.73-9.73v-.23L1.67 4.47l-.09.09zm20.01 8.96l-2.77-1.6-3.07 3.07 3.07 3.07 2.79-1.61c.79-.46.79-1.2 0-1.66l-.02.13zm-18.4 9.06l12.22-7.06-2.81-2.81-9.41 9.87z"/></svg>
+          Google Play
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="bg-blob blob1"></div>
+      <div class="bg-blob blob2"></div>
+      <div class="floating-card fc-left">
+        <div class="fc-icon">🍺</div>
+        <div class="fc-val">+30</div>
+        <div class="fc-label">First visit!</div>
+      </div>
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-app-name">DraughtLeague</div>
+            <div class="phone-greeting">Hey, rford764 👋</div>
+          </div>
+          <div class="phone-rank-card">
+            <div>
+              <div class="rank-label">Your rank</div>
+              <div class="rank-num">#2</div>
+              <div class="rank-pts">340 pts this season</div>
+            </div>
+            <div class="rank-badge">
+              <div class="rank-badge-label">Season</div>
+              <div class="rank-badge-val">4</div>
+            </div>
+          </div>
+          <div class="phone-section">
+            <div class="phone-section-title">Leaderboard</div>
+            <div class="leaderboard-row">
+              <div class="lb-rank">#1</div>
+              <div class="lb-avatar">JK</div>
+              <div class="lb-name">jakekelly</div>
+              <div class="lb-pts">410 pts</div>
+            </div>
+            <div class="leaderboard-row">
+              <div class="lb-rank">#2</div>
+              <div class="lb-avatar lb-avatar-you">RF</div>
+              <div class="lb-name lb-you">rford764 (you)</div>
+              <div class="lb-pts lb-you">340 pts</div>
+            </div>
+            <div class="leaderboard-row">
+              <div class="lb-rank">#3</div>
+              <div class="lb-avatar" style="background:#5DCAA5">SM</div>
+              <div class="lb-name">sarahmac</div>
+              <div class="lb-pts">290 pts</div>
+            </div>
+            <div class="leaderboard-row">
+              <div class="lb-rank">#4</div>
+              <div class="lb-avatar" style="background:#534AB7">TW</div>
+              <div class="lb-name">tomw</div>
+              <div class="lb-pts">220 pts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-card fc-right">
+        <div class="fc-icon">📍</div>
+        <div class="fc-val">16</div>
+        <div class="fc-label">Venues visited</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">Fantasy sports meets <br>your Friday night</h2>
+  <p class="section-sub">Four simple steps to turn your brewery trips into friendly competition.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Join a league</h3>
+      <p>Browse public leagues or get invited by a friend. Brewery, winery, or distillery — pick your poison.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Check in</h3>
+      <p>Arrive at a venue, open the app, and check in. Answer a few questions about your visit to earn points.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Earn points</h3>
+      <p>Score big for first visits, photo uploads, drink selections, and bonus questions. Every outing counts.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Climb the board</h3>
+      <p>Watch the leaderboard update in real time. Seasons end with a winner — then it all resets and begins again.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEAGUE TYPES -->
+<section class="section" id="leagues">
+  <div class="section-label">League types</div>
+  <h2 class="section-title">Choose your<br>category</h2>
+  <p class="section-sub">Three distinct league types, each with their own scoring, photo tags and culture.</p>
+  <div class="league-types">
+    <div class="league-type-card">
+      <span class="lt-emoji">🍺</span>
+      <div class="lt-title">Brewery League</div>
+      <p class="lt-desc">Track tap rooms, craft breweries and beer halls. Score points for tap lists, pints, tours and more.</p>
+    </div>
+    <div class="league-type-card">
+      <span class="lt-emoji">🍷</span>
+      <div class="lt-title">Winery League</div>
+      <p class="lt-desc">Explore vineyards, tasting rooms and wine bars. Earn points for tastings, bottles and cellar visits.</p>
+    </div>
+    <div class="league-type-card">
+      <span class="lt-emoji">🥃</span>
+      <div class="lt-title">Distillery League</div>
+      <p class="lt-desc">Whiskey, gin, rum and beyond. Score for flights, tours and discovering new small-batch spirits.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything you need <br>to play</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h3>Live leaderboard</h3>
+      <p>See exactly where you stand at all times. Points update the moment you check in — no waiting until the end of the week.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📸</div>
+      <h3>Photo scoring</h3>
+      <p>Earn bonus points for uploading photos of your visit — tap lists, taprooms, tours and more. Document your journey.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗓️</div>
+      <h3>Seasons</h3>
+      <p>Leagues run in 3, 6 or 12-month seasons. When the season ends, the leaderboard resets and a new champion is crowned.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Private & public leagues</h3>
+      <p>Run a public league anyone can join, or keep it private with invite codes and passwords for your crew.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3>Venue updates</h3>
+      <p>Get notified when venues you've visited post new tap lists, events and promotions. Stay in the loop.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>Discover nearby</h3>
+      <p>Traveling? Find venues other league members have visited near you, sorted by distance. Never miss a spot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR OWNERS -->
+<section class="owners-section" id="for-owners">
+  <div class="owners-inner">
+    <div>
+      <div class="section-label">For venue owners</div>
+      <h2 class="section-title">Your regulars <br>are playing</h2>
+      <p class="section-sub">DraughtLeague connects you with the members who visit your venue and keep coming back for points.</p>
+      <div class="owner-perks">
+        <div class="owner-perk">
+          <div class="perk-dot"></div>
+          <div>
+            <h4>Post updates directly to members</h4>
+            <p>Share new tap lists, events and promotions. Members who've visited get notified automatically.</p>
+          </div>
+        </div>
+        <div class="owner-perk">
+          <div class="perk-dot"></div>
+          <div>
+            <h4>Drive repeat visits</h4>
+            <p>Members earn bonus points for first visits — giving them a reason to explore your full range.</p>
+          </div>
+        </div>
+        <div class="owner-perk">
+          <div class="perk-dot"></div>
+          <div>
+            <h4>Appear in nearby searches</h4>
+            <p>Traveling league members discover your venue through the app's location-aware search.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="owner-stat-grid">
+      <div class="owner-stat">
+        <div class="owner-stat-val">16</div>
+        <div class="owner-stat-label">Venues in league</div>
+      </div>
+      <div class="owner-stat">
+        <div class="owner-stat-val">3</div>
+        <div class="owner-stat-label">League types</div>
+      </div>
+      <div class="owner-stat">
+        <div class="owner-stat-val">+30</div>
+        <div class="owner-stat-label">Points per first visit</div>
+      </div>
+      <div class="owner-stat">
+        <div class="owner-stat-val">Free</div>
+        <div class="owner-stat-label">To get started</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="download">
+  <div class="section-label" style="text-align:center;">Get the app</div>
+  <h2 class="section-title">Ready to play?</h2>
+  <p>Download DraughtLeague free on iOS and Android. Find a league, check in at your local and start earning points today.</p>
+  <div class="cta-buttons">
+    <a href="https://apps.apple.com" class="store-btn">
+      <div class="store-btn-icon">🍎</div>
+      <div class="store-btn-text">
+        <span class="store-btn-sub">Download on the</span>
+        <span class="store-btn-name">App Store</span>
+      </div>
+    </a>
+    <a href="https://play.google.com/apps/internaltest/4700872712299623328" class="store-btn">
+      <div class="store-btn-icon">▶</div>
+      <div class="store-btn-text">
+        <span class="store-btn-sub">Get it on</span>
+        <span class="store-btn-name">Google Play</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Draught<span>League</span></div>
+    <div class="footer-links">
+      <a href="https://rford764.github.io/draughtleague-legal/privacy-policy.html">Privacy policy</a>
+      <a href="https://rford764.github.io/draughtleague-legal/delete-account.html">Delete account</a>
+      <a href="mailto:hello@draughtleague.com">Contact</a>
+    </div>
+    <div>© 2026 DraughtLeague</div>
+  </div>
+</footer>
+
+</body>
+</html>
