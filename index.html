@@ -781,14 +781,17 @@
     <div>© 2026 DraughtLeague</div>
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  QRCode.toCanvas(document.createElement('canvas'), 'https://draughtleague.com', {
-    width: 88,
-    margin: 1,
-    color: { dark: '#1A1A18', light: '#FAF7F0' },
-  }, function(err, canvas) {
-    if (!err) document.getElementById('hero-qr').appendChild(canvas);
+  document.addEventListener('DOMContentLoaded', function() {
+    new QRCode(document.getElementById('hero-qr'), {
+      text: 'https://draughtleague.com',
+      width: 88,
+      height: 88,
+      colorDark: '#1A1A18',
+      colorLight: '#FAF7F0',
+      correctLevel: QRCode.CorrectLevel.M,
+    });
   });
 </script>
 
