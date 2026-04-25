@@ -442,6 +442,26 @@
   .footer-logo-text span { color: var(--green); }
   .footer-links { display: flex; gap: 24px; }
 
+  /* QR CODE */
+  .hero-qr-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  #hero-qr canvas, #hero-qr img {
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0 2px 12px rgba(26,26,24,0.1);
+    display: block;
+  }
+  .hero-qr-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.03em;
+  }
+
   /* DIVIDER */
   .divider { width: 100%; height: 1px; background: var(--border); }
 
@@ -506,6 +526,10 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.98.15l12.87-7.43-2.81-2.81-11.04 10.09zm-1.6-19.2c-.1.22-.16.47-.16.76v17.37c0 .29.06.54.16.76l.09.09 9.73-9.73v-.23L1.67 4.47l-.09.09zm20.01 8.96l-2.77-1.6-3.07 3.07 3.07 3.07 2.79-1.61c.79-.46.79-1.2 0-1.66l-.02.13zm-18.4 9.06l12.22-7.06-2.81-2.81-9.41 9.87z"/></svg>
           Google Play
         </a>
+      </div>
+      <div class="hero-qr-wrap">
+        <div id="hero-qr"></div>
+        <span class="hero-qr-label">Scan to open</span>
       </div>
     </div>
     <div class="hero-visual">
@@ -757,6 +781,16 @@
     <div>© 2026 DraughtLeague</div>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+  QRCode.toCanvas(document.createElement('canvas'), 'https://draughtleague.com', {
+    width: 88,
+    margin: 1,
+    color: { dark: '#1A1A18', light: '#FAF7F0' },
+  }, function(err, canvas) {
+    if (!err) document.getElementById('hero-qr').appendChild(canvas);
+  });
+</script>
 
 </body>
 </html>
