@@ -631,7 +631,7 @@
       placeholder="your@email.com"
       autocomplete="email"
     >
-    <button class="waitlist-btn" id="waitlist-btn" onclick="submitWaitlist()">
+    <button class="waitlist-btn" id="waitlist-btn">
       Notify me
     </button>
   </div>
@@ -665,7 +665,7 @@
   );
 
   // QR code + enter key — after DOM ready
-  document.addEventListener('DOMContentLoaded', function () {
+	document.addEventListener('DOMContentLoaded', function () {
     new QRCode(document.getElementById('hero-qr'), {
       text: 'https://draughtleague.com',
       width: 88,
@@ -678,6 +678,8 @@
     document.getElementById('waitlist-email').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') submitWaitlist();
     });
+
+    document.getElementById('waitlist-btn').addEventListener('click', submitWaitlist);
   });
 
   // Waitlist submit — global scope so onclick can reach it
