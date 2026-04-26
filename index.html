@@ -664,7 +664,7 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBranB3aXZ0dWJqZHRlb3Ntem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjQ1NTgsImV4cCI6MjA5MDkwMDU1OH0.l3BHnK6kjhdXcevgSCJnDaLmReQAU5KQXlxRBQccvnI'
   );
 
-  // QR code
+  // QR code + enter key — after DOM ready
   document.addEventListener('DOMContentLoaded', function () {
     new QRCode(document.getElementById('hero-qr'), {
       text: 'https://draughtleague.com',
@@ -675,13 +675,12 @@
       correctLevel: QRCode.CorrectLevel.M,
     });
 
-    // Waitlist enter key
     document.getElementById('waitlist-email').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') submitWaitlist();
     });
   });
 
-  // Waitlist submit
+  // Waitlist submit — global scope so onclick can reach it
   async function submitWaitlist() {
     const emailInput = document.getElementById('waitlist-email');
     const btn = document.getElementById('waitlist-btn');
