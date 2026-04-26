@@ -657,7 +657,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  const supabase = window.supabase.createClient(
+  const _db = window.supabase.createClient(
     'https://pkjpwivtubjdteosmznf.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBranB3aXZ0dWJqZHRlb3Ntem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjQ1NTgsImV4cCI6MjA5MDkwMDU1OH0.l3BHnK6kjhdXcevgSCJnDaLmReQAU5KQXlxRBQccvnI'
   );
@@ -694,7 +694,7 @@
     msg.textContent = '';
     msg.className = 'waitlist-message';
 
-    const { error } = await supabase
+    const { error } = await _db
       .from('waitlist')
       .insert([{ email, source: 'website' }]);
 
