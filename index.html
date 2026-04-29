@@ -156,6 +156,14 @@
   .waitlist-message.success { color: var(--green); }
   .waitlist-message.error { color: #e53e3e; }
 
+  .waitlist-tester { max-width: 480px; margin: 16px auto 0; display: flex; flex-direction: column; gap: 12px; }
+  .tester-toggle { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+  .tester-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+  .tester-toggle-label { font-size: 14px; color: var(--ink-muted); font-weight: 500; }
+  .tester-device { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tester-device-btn { padding: 8px 20px; border-radius: 100px; border: 1.5px solid var(--border); background: white; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--ink-muted); cursor: pointer; transition: all 0.15s; }
+  .tester-device-btn.active { background: var(--green); border-color: var(--green); color: white; font-weight: 600; }
+
   /* FOOTER */
   footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 48px; text-align: center; font-size: 13px; }
   footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
@@ -324,6 +332,17 @@
     <input type="email" class="waitlist-input" id="waitlist-email" placeholder="your@email.com" autocomplete="email">
     <button class="waitlist-btn" id="waitlist-btn">Notify me</button>
   </div>
+  <div class="waitlist-tester">
+    <label class="tester-toggle">
+      <input type="checkbox" id="is-tester">
+      <span class="tester-toggle-label">I'd like to be a beta tester</span>
+    </label>
+    <div class="tester-device" id="device-row" style="display:none;">
+      <button class="tester-device-btn" data-val="ios" onclick="selectDevice(this)">📱 iOS</button>
+      <button class="tester-device-btn" data-val="android" onclick="selectDevice(this)">🤖 Android</button>
+      <button class="tester-device-btn" data-val="both" onclick="selectDevice(this)">Both</button>
+    </div>
+  </div>
   <div class="waitlist-message" id="waitlist-message"></div>
 </section>
 
@@ -360,6 +379,22 @@
     correctLevel: QRCode.CorrectLevel.M,
   });
 
+  let selectedDevice = null;
+
+  function selectDevice(btn) {
+    selectedDevice = btn.dataset.val;
+    document.querySelectorAll('.tester-device-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  document.getElementById('is-tester').addEventListener('change', function() {
+    document.getElementById('device-row').style.display = this.checked ? 'flex' : 'none';
+    if (!this.checked) {
+      selectedDevice = null;
+      document.querySelectorAll('.tester-device-btn').forEach(b => b.classList.remove('active'));
+    }
+  });
+
   document.getElementById('waitlist-email').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') submitWaitlist();
   });
@@ -371,9 +406,16 @@
     const btn = document.getElementById('waitlist-btn');
     const msg = document.getElementById('waitlist-message');
     const email = emailInput.value.trim();
+    const isTester = document.getElementById('is-tester').checked;
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       msg.textContent = 'Please enter a valid email address.';
+      msg.className = 'waitlist-message error';
+      return;
+    }
+
+    if (isTester && !selectedDevice) {
+      msg.textContent = 'Please select your device type (iOS, Android, or Both).';
       msg.className = 'waitlist-message error';
       return;
     }
@@ -383,9 +425,13 @@
     msg.textContent = '';
     msg.className = 'waitlist-message';
 
-    const { error } = await _db
-      .from('waitlist')
-      .insert([{ email, source: 'website' }]);
+    const record = { email, source: 'website' };
+    if (isTester) {
+      record.is_tester = true;
+      record.device_type = selectedDevice;
+    }
+
+    const { error } = await _db.from('waitlist').insert([record]);
 
     if (error) {
       if (error.code === '23505') {
@@ -402,7 +448,9 @@
 
     emailInput.value = '';
     btn.textContent = "You're in! 🍺";
-    msg.textContent = "Thanks! We'll let you know as soon as DraughtLeague launches.";
+    msg.textContent = isTester
+      ? "Thanks! We'll be in touch about beta testing."
+      : "Thanks! We'll let you know as soon as DraughtLeague launches.";
     msg.className = 'waitlist-message success';
   }
 </script>
