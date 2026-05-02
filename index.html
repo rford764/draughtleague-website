@@ -408,7 +408,7 @@
     const email = emailInput.value.trim();
     const isTester = document.getElementById('is-tester').checked;
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!email || !/^[^\s@]+@[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+$/.test(email)) {
       msg.textContent = 'Please enter a valid email address.';
       msg.className = 'waitlist-message error';
       return;
