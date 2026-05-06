@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venue — DraughtLeague</title>
+<meta name="description" content="Check-in stats, photos and updates for this venue on DraughtLeague.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --cream: #FAF7F0;
+    --ink: #1A1A18;
+    --ink-muted: #5A5A54;
+    --gold: #C8922A;
+    --amber: #EF9F27;
+    --border: rgba(26,26,24,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 48px;
+    background: rgba(250,247,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
+  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+  .nav-logo-text span { color: var(--green); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--cream) !important; padding: 10px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--green-dark) !important; color: #fff !important; }
+
+  /* PAGE */
+  .page { max-width: 900px; margin: 0 auto; padding: 120px 48px 80px; }
+
+  /* LOADING / ERROR */
+  .state-box { text-align: center; padding: 80px 0; }
+  .state-box p { font-size: 16px; color: var(--ink-muted); margin-top: 12px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--green-light); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* BREADCRUMB */
+  .breadcrumb { font-size: 13px; color: var(--ink-muted); margin-bottom: 28px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--green); text-decoration: none; font-weight: 500; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--border); }
+
+  /* VENUE HEADER */
+  .venue-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
+  .venue-type-badge {
+    width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    background: var(--green-light);
+  }
+  .venue-header-info { flex: 1; }
+  .venue-name { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .venue-meta { font-size: 14px; color: var(--ink-muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .venue-meta-sep { color: var(--border); }
+  .venue-type-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 100px;
+  }
+  .venue-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .venue-link { font-size: 13px; color: var(--green); font-weight: 500; text-decoration: none; }
+  .venue-link:hover { text-decoration: underline; }
+
+  /* STAT ROW */
+  .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 40px; }
+  .stat-box { background: white; padding: 28px 32px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 13px; color: var(--ink-muted); font-weight: 500; }
+
+  /* SECTION HEADS */
+  .section-head { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 16px; margin-top: 40px; }
+
+  /* PHOTOS */
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
+  .photo-item { border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: var(--green-light); cursor: pointer; }
+  .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
+  .photo-item:hover img { transform: scale(1.04); }
+  .no-photos { font-size: 14px; color: var(--ink-muted); font-style: italic; padding: 20px 0; }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 200; align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox-img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+  .lightbox-close { position: absolute; top: 24px; right: 32px; color: rgba(255,255,255,0.6); font-size: 32px; cursor: pointer; line-height: 1; }
+  .lightbox-close:hover { color: white; }
+
+  /* UPDATES */
+  .update-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 12px; }
+  .update-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 12px; }
+  .update-type { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-dark); background: var(--green-light); padding: 3px 10px; border-radius: 100px; }
+  .update-date { font-size: 12px; color: var(--ink-muted); flex-shrink: 0; }
+  .update-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .update-content { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
+  .update-img { width: 100%; border-radius: 10px; margin-top: 14px; object-fit: cover; max-height: 280px; }
+  .no-updates { font-size: 14px; color: var(--ink-muted); font-style: italic; padding: 20px 0; }
+
+  /* CLAIM BANNER */
+  .claim-banner {
+    background: var(--ink); color: white; border-radius: 16px;
+    padding: 28px 32px; margin-top: 48px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+  }
+  .claim-banner-text h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .claim-banner-text p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .claim-btn {
+    background: var(--green); color: white; padding: 12px 24px; border-radius: 100px;
+    font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .claim-btn:hover { background: var(--green-dark); }
+
+  /* CTA */
+  .cta-banner {
+    background: var(--green-light); border-radius: 16px;
+    padding: 32px; margin-top: 48px; text-align: center;
+  }
+  .cta-banner h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .cta-banner p { font-size: 14px; color: var(--ink-muted); margin-bottom: 20px; line-height: 1.6; }
+  .cta-banner a {
+    display: inline-block; background: var(--ink); color: white;
+    padding: 12px 28px; border-radius: 100px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .cta-banner a:hover { background: var(--green-dark); }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 48px; text-align: center; font-size: 13px; margin-top: 80px; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.7); }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-logo-wrap { display: flex; align-items: center; gap: 8px; }
+  .footer-logo-icon { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; opacity: 0.9; }
+  .footer-logo-text { font-family: 'Playfair Display', serif; font-size: 18px; color: white; }
+  .footer-logo-text span { color: var(--green); }
+  .footer-links { display: flex; gap: 24px; }
+
+  @media (max-width: 700px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .page { padding: 100px 20px 60px; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    .claim-banner { flex-direction: column; }
+    footer { padding: 32px 20px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://draughtleague.com" class="nav-logo">
+    <img src="/assets/icon.png" alt="DraughtLeague" class="nav-logo-icon">
+    <span class="nav-logo-text">Draught<span>League</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="https://draughtleague.com/#how-it-works">How it works</a>
+    <a href="https://draughtleague.com/#for-owners">For owners</a>
+    <a href="https://draughtleague.com/#leagues">Leagues</a>
+    <a href="https://draughtleague.com/#download" class="nav-cta">Join waitlist</a>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+  <!-- Loading state -->
+  <div class="state-box" id="loading-state">
+    <div class="spinner"></div>
+    <p>Loading venue…</p>
+  </div>
+
+  <!-- Error state -->
+  <div class="state-box" id="error-state" style="display:none;">
+    <p style="font-size:48px;">🍺</p>
+    <p style="font-size:20px;font-weight:600;margin-top:12px;color:var(--ink);">Venue not found</p>
+    <p>This venue hasn't been added to DraughtLeague yet, or the link may be incorrect.</p>
+    <a href="https://draughtleague.com" style="display:inline-block;margin-top:24px;color:var(--green);font-weight:600;">← Back to DraughtLeague</a>
+  </div>
+
+  <!-- Venue content -->
+  <div id="venue-content" style="display:none;">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="https://draughtleague.com">DraughtLeague</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="bc-region"></span>
+      <span class="breadcrumb-sep">›</span>
+      <span id="bc-city"></span>
+      <span class="breadcrumb-sep">›</span>
+      <span id="bc-name"></span>
+    </div>
+
+    <!-- Venue header -->
+    <div class="venue-header">
+      <div class="venue-type-badge" id="venue-emoji"></div>
+      <div class="venue-header-info">
+        <div class="venue-name" id="venue-name"></div>
+        <div class="venue-meta">
+          <span id="venue-city"></span>
+          <span class="venue-meta-sep">·</span>
+          <span class="venue-type-pill" id="venue-type-pill"></span>
+        </div>
+        <div class="venue-links" id="venue-links"></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-checkins">—</div>
+        <div class="stat-label">Total check-ins</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-visitors">—</div>
+        <div class="stat-label">Unique visitors</div>
+      </div>
+    </div>
+
+    <!-- Featured photos -->
+    <div class="section-head">Photos</div>
+    <div class="photo-grid" id="photo-grid"></div>
+    <p class="no-photos" id="no-photos" style="display:none;">No featured photos yet.</p>
+
+    <!-- Owner updates -->
+    <div class="section-head">Updates from the venue</div>
+    <div id="updates-list"></div>
+    <p class="no-updates" id="no-updates" style="display:none;">No updates posted yet.</p>
+
+    <!-- Claim banner (shown when unclaimed) -->
+    <div class="claim-banner" id="claim-banner" style="display:none;">
+      <div class="claim-banner-text">
+        <h3>Is this your venue?</h3>
+        <p>Claim this page to post updates, feature photos and connect with your regulars on DraughtLeague.</p>
+      </div>
+      <a href="https://draughtleague.com/#for-owners" class="claim-btn">Claim this venue</a>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-banner">
+      <h3>Join the league</h3>
+      <p>Check in here, earn points and compete with friends on DraughtLeague — free on iOS and Android.</p>
+      <a href="https://draughtleague.com/#download">Get DraughtLeague</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">×</span>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo-wrap">
+      <img src="/assets/icon.png" alt="DraughtLeague" class="footer-logo-icon">
+      <span class="footer-logo-text">Draught<span>League</span></span>
+    </div>
+    <div class="footer-links">
+      <a href="https://rford764.github.io/draughtleague-legal/privacy-policy.html">Privacy policy</a>
+      <a href="https://rford764.github.io/draughtleague-legal/delete-account.html">Delete account</a>
+      <a href="mailto:hello@draughtleague.com">Contact</a>
+    </div>
+    <div>© 2026 DraughtLeague</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _db = window.supabase.createClient(
+  'https://pkjpwivtubjdteosmznf.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBranB3aXZ0dWJqZHRlb3Ntem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjQ1NTgsImV4cCI6MjA5MDkwMDU1OH0.l3BHnK6kjhdXcevgSCJnDaLmReQAU5KQXlxRBQccvnI'
+);
+
+const TYPE_EMOJI  = { brewery: '🍺', winery: '🍷', distillery: '🥃' };
+const TYPE_LABEL  = { brewery: 'Brewery', winery: 'Winery', distillery: 'Distillery' };
+const REGION_NAMES = {
+  al:'Alabama',ak:'Alaska',az:'Arizona',ar:'Arkansas',ca:'California',co:'Colorado',
+  ct:'Connecticut',de:'Delaware',fl:'Florida',ga:'Georgia',hi:'Hawaii',id:'Idaho',
+  il:'Illinois',in:'Indiana',ia:'Iowa',ks:'Kansas',ky:'Kentucky',la:'Louisiana',
+  me:'Maine',md:'Maryland',ma:'Massachusetts',mi:'Michigan',mn:'Minnesota',ms:'Mississippi',
+  mo:'Missouri',mt:'Montana',ne:'Nebraska',nv:'Nevada',nh:'New Hampshire',nj:'New Jersey',
+  nm:'New Mexico',ny:'New York',nc:'North Carolina',nd:'North Dakota',oh:'Ohio',ok:'Oklahoma',
+  or:'Oregon',pa:'Pennsylvania',ri:'Rhode Island',sc:'South Carolina',sd:'South Dakota',
+  tn:'Tennessee',tx:'Texas',ut:'Utah',vt:'Vermont',va:'Virginia',wa:'Washington',
+  wv:'West Virginia',wi:'Wisconsin',wy:'Wyoming',dc:'Washington D.C.',
+  // Canada
+  on:'Ontario',bc:'British Columbia',ab:'Alberta',qc:'Quebec',ns:'Nova Scotia',
+  nb:'New Brunswick',mb:'Manitoba',sk:'Saskatchewan',nl:'Newfoundland',pe:'Prince Edward Island',
+  // UK
+  eng:'England',sct:'Scotland',wls:'Wales',nir:'Northern Ireland',
+  // Australia
+  nsw:'New South Wales',vic:'Victoria',qld:'Queensland',wa:'Western Australia',
+  sa:'South Australia',tas:'Tasmania',
+  // Ireland
+  l:'Leinster',m:'Munster',c:'Connacht',u:'Ulster',
+};
+
+// Extract slug from ?slug= query param (set by 404.html redirect)
+// e.g. /venue/us/ma/woburn/lord-hobo-brewing-company → ?slug=us/ma/woburn/lord-hobo-brewing-company
+function parseSlugFromPath() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+  if (slug) return slug;
+  // Fallback: try reading directly from pathname for future direct routing
+  const parts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+  if (parts.length >= 5 && parts[0] === 'venue') return parts.slice(1).join('/');
+  return null;
+}
+
+function titleCase(str) {
+  return (str || '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function formatDate(iso) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function openLightbox(url) {
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+async function loadVenue() {
+  const slug = parseSlugFromPath();
+  if (!slug) { showError(); return; }
+
+  const slugParts = slug.split('/');
+  const country = slugParts[0];
+  const region  = slugParts[1];
+  const city    = slugParts[2];
+
+  // Fetch location by venue_slug
+  const { data: location, error } = await _db
+    .from('locations')
+    .select('id, name, city, region, country, location_type, website, phone, owner_profile_id, venue_slug')
+    .eq('venue_slug', slug)
+    .single();
+
+  if (error || !location) { showError(); return; }
+
+  // Update page title and meta
+  document.title = `${location.name} — DraughtLeague`;
+  document.querySelector('meta[name="description"]').setAttribute('content',
+    `Check in stats, photos and updates for ${location.name} on DraughtLeague.`
+  );
+
+  // Breadcrumb
+  const regionLabel = REGION_NAMES[region] ?? region.toUpperCase();
+  document.getElementById('bc-region').textContent = regionLabel;
+  document.getElementById('bc-city').textContent   = titleCase(city);
+  document.getElementById('bc-name').textContent   = location.name;
+
+  // Header
+  const locType = location.location_type?.toLowerCase();
+  const typeKey = locType?.includes('winery') || locType?.includes('vineyard') ? 'winery'
+                : locType?.includes('distill') ? 'distillery'
+                : 'brewery';
+
+  document.getElementById('venue-emoji').textContent    = TYPE_EMOJI[typeKey] ?? '🍺';
+  document.getElementById('venue-name').textContent     = location.name;
+  document.getElementById('venue-city').textContent     = `${titleCase(city)}, ${region.toUpperCase()}`;
+  document.getElementById('venue-type-pill').textContent = TYPE_LABEL[typeKey] ?? 'Venue';
+
+  // External links
+  const linksEl = document.getElementById('venue-links');
+  if (location.website) {
+    const a = document.createElement('a');
+    a.href = location.website.startsWith('http') ? location.website : 'https://' + location.website;
+    a.textContent = '🌐 Website';
+    a.className = 'venue-link';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    linksEl.appendChild(a);
+  }
+  if (location.phone) {
+    const a = document.createElement('a');
+    a.href = `tel:${location.phone}`;
+    a.textContent = `📞 ${location.phone}`;
+    a.className = 'venue-link';
+    linksEl.appendChild(a);
+  }
+
+  // Stats: total check-ins + unique visitors
+  const [ciRes, uvRes] = await Promise.all([
+    _db.from('check_ins').select('id', { count: 'exact', head: true }).eq('location_id', location.id),
+    _db.from('check_ins').select('profile_id').eq('location_id', location.id),
+  ]);
+  document.getElementById('stat-checkins').textContent = ciRes.count ?? 0;
+  const uniqueVisitors = new Set((uvRes.data ?? []).map(r => r.profile_id)).size;
+  document.getElementById('stat-visitors').textContent = uniqueVisitors;
+
+  // Featured photos (is_featured = true)
+  const { data: photos } = await _db
+    .from('check_in_photos')
+    .select('id, cloudinary_url, caption, check_in_id, check_ins!inner(location_id)')
+    .eq('check_ins.location_id', location.id)
+    .eq('is_featured', true)
+    .limit(9);
+
+  const photoGrid = document.getElementById('photo-grid');
+  if (photos && photos.length > 0) {
+    photos.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'photo-item';
+      div.onclick = () => openLightbox(p.cloudinary_url);
+      const img = document.createElement('img');
+      img.src = p.cloudinary_url;
+      img.alt = p.caption || location.name;
+      img.loading = 'lazy';
+      div.appendChild(img);
+      photoGrid.appendChild(div);
+    });
+  } else {
+    document.getElementById('no-photos').style.display = 'block';
+  }
+
+  // Owner updates (public, most recent first)
+  const { data: updates } = await _db
+    .from('owner_updates')
+    .select('id, title, content, update_type, image_url, created_at')
+    .eq('location_id', location.id)
+    .order('created_at', { ascending: false })
+    .limit(10);
+
+  const updatesList = document.getElementById('updates-list');
+  if (updates && updates.length > 0) {
+    updates.forEach(u => {
+      const card = document.createElement('div');
+      card.className = 'update-card';
+      card.innerHTML = `
+        <div class="update-header">
+          <span class="update-type">${u.update_type ?? 'Update'}</span>
+          <span class="update-date">${formatDate(u.created_at)}</span>
+        </div>
+        ${u.title ? `<div class="update-title">${u.title}</div>` : ''}
+        <div class="update-content">${u.content ?? ''}</div>
+        ${u.image_url ? `<img class="update-img" src="${u.image_url}" alt="${u.title ?? 'Update'}" loading="lazy">` : ''}
+      `;
+      updatesList.appendChild(card);
+    });
+  } else {
+    document.getElementById('no-updates').style.display = 'block';
+  }
+
+  // Show claim banner if unclaimed
+  if (!location.owner_profile_id) {
+    document.getElementById('claim-banner').style.display = 'flex';
+  }
+
+  // Show content
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('venue-content').style.display = 'block';
+}
+
+function showError() {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('error-state').style.display = 'block';
+}
+
+loadVenue().catch(() => showError());
+</script>
+
+</body>
+</html>

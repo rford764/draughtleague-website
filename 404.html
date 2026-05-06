@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DraughtLeague</title>
+<script>
+  const path = window.location.pathname;
+  if (path.startsWith('/venue/')) {
+    // Strip leading /venue/ and pass as slug param to venue.html
+    const slug = path.replace(/^\/venue\//, '').replace(/\/$/, '');
+    window.location.replace('/venue.html?slug=' + slug);
+  } else {
+    // All other unmatched paths → home
+    window.location.replace('/');
+  }
+</script>
+</head>
+<body></body>
+</html>
