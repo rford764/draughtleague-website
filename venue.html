@@ -217,6 +217,11 @@
           <span class="venue-meta-sep">·</span>
           <span class="venue-type-pill" id="venue-type-pill"></span>
         </div>
+        <div id="venue-address" style="display:none; font-size:14px; color:var(--ink-muted); margin-bottom:6px;"></div>
+        <a id="venue-maps-link" href="#" target="_blank" rel="noopener"
+           style="display:none; align-items:center; gap:6px; font-size:13px; color:var(--green); font-weight:500; text-decoration:none; margin-bottom:4px;">
+          🗺️ Open in Maps
+        </a>
         <div class="venue-links" id="venue-links"></div>
       </div>
     </div>
@@ -568,7 +573,7 @@ async function loadVenue() {
 
   const { data: location, error } = await _db
     .from('locations')
-    .select(`id, name, city, region, country, location_type, website, phone, owner_profile_id, venue_slug,
+    .select(`id, name, city, region, country, address, location_type, website, phone, owner_profile_id, venue_slug,
              dog_friendly, outdoor_seating, food_available, food_schedule, food_menu_url, food_menu_image_url,
              parking, hours, timezone, additional_info`)
     .eq('venue_slug', slug)
@@ -595,6 +600,17 @@ async function loadVenue() {
   document.getElementById('venue-name').textContent     = location.name;
   document.getElementById('venue-city').textContent     = `${titleCase(city)}, ${region.toUpperCase()}`;
   document.getElementById('venue-type-pill').textContent = TYPE_LABEL[typeKey] ?? 'Venue';
+
+  // Address + Maps link
+  if (location.address) {
+    const addrEl = document.getElementById('venue-address');
+    addrEl.textContent = location.address;
+    addrEl.style.display = 'block';
+    const mapsEl = document.getElementById('venue-maps-link');
+    const mapsQuery = encodeURIComponent(location.address);
+    mapsEl.href = `https://maps.google.com/?q=${mapsQuery}`;
+    mapsEl.style.display = 'inline-flex';
+  }
 
   const linksEl = document.getElementById('venue-links');
   if (location.website) {
