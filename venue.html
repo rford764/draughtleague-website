@@ -25,6 +25,7 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
 
+  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -43,87 +44,67 @@
   .nav-cta { background: var(--ink); color: var(--cream) !important; padding: 10px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
   .nav-cta:hover { background: var(--green-dark) !important; color: #fff !important; }
 
+  /* PAGE */
   .page { max-width: 900px; margin: 0 auto; padding: 120px 48px 80px; }
 
+  /* LOADING / ERROR */
   .state-box { text-align: center; padding: 80px 0; }
   .state-box p { font-size: 16px; color: var(--ink-muted); margin-top: 12px; }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--green-light); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* BREADCRUMB */
   .breadcrumb { font-size: 13px; color: var(--ink-muted); margin-bottom: 28px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .breadcrumb a { color: var(--green); text-decoration: none; font-weight: 500; }
   .breadcrumb a:hover { text-decoration: underline; }
   .breadcrumb-sep { color: var(--border); }
 
+  /* VENUE HEADER */
   .venue-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
-  .venue-type-badge { width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; background: var(--green-light); }
+  .venue-type-badge {
+    width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    background: var(--green-light);
+  }
   .venue-header-info { flex: 1; }
   .venue-name { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 6px; }
   .venue-meta { font-size: 14px; color: var(--ink-muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
   .venue-meta-sep { color: var(--border); }
-  .venue-type-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; }
+  .venue-type-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 100px;
+  }
   .venue-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
   .venue-link { font-size: 13px; color: var(--green); font-weight: 500; text-decoration: none; }
   .venue-link:hover { text-decoration: underline; }
 
+  /* STAT ROW */
   .stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 40px; }
   .stat-box { background: white; padding: 28px 32px; }
   .stat-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 6px; }
   .stat-label { font-size: 13px; color: var(--ink-muted); font-weight: 500; }
 
+  /* SECTION HEADS */
   .section-head { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 16px; margin-top: 40px; }
 
-  /* AMENITIES */
-  .amenities-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-  .amenity-pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: white; border: 1px solid var(--border);
-    padding: 8px 16px; border-radius: 100px;
-    font-size: 14px; font-weight: 500; color: var(--ink);
-  }
-  .amenity-pill.active { background: var(--green-light); border-color: var(--green); color: var(--green-dark); }
-
-  /* HOURS */
-  .hours-card { background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 8px; }
-  .hours-row { display: flex; align-items: center; padding: 11px 20px; border-bottom: 1px solid var(--border); }
-  .hours-row:last-child { border-bottom: none; }
-  .hours-row.today { background: var(--green-light); }
-  .hours-day { width: 80px; font-size: 14px; font-weight: 600; color: var(--ink); }
-  .hours-row.today .hours-day { color: var(--green-dark); }
-  .hours-time { font-size: 14px; color: var(--ink-muted); }
-  .hours-row.today .hours-time { color: var(--green-dark); font-weight: 500; }
-  .hours-closed { font-size: 14px; color: var(--ink-muted); opacity: 0.5; font-style: italic; }
-  .hours-tz { font-size: 12px; color: var(--ink-muted); margin-top: 8px; text-align: right; }
-  .open-badge { margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; }
-  .open-badge.open { background: var(--green); color: white; }
-  .open-badge.closed { background: rgba(26,26,24,0.08); color: var(--ink-muted); }
-
-  /* FOOD */
-  .food-section { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 8px; }
-  .food-menu-links { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-  .food-menu-img { width: 100%; max-height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 16px; }
-  .food-schedule-title { font-size: 13px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
-  .vendor-card { background: var(--cream); border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; }
-  .vendor-name { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-  .vendor-meta { font-size: 13px; color: var(--ink-muted); margin-bottom: 6px; }
-  .vendor-days { display: flex; flex-wrap: wrap; gap: 6px; }
-  .vendor-day { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: var(--green-light); color: var(--green-dark); }
-
-  /* ADDITIONAL INFO */
-  .additional-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; font-size: 14px; color: var(--ink-muted); line-height: 1.7; }
-
+  /* PHOTOS */
   .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
   .photo-item { border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: var(--green-light); cursor: pointer; }
   .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
   .photo-item:hover img { transform: scale(1.04); }
   .no-photos { font-size: 14px; color: var(--ink-muted); font-style: italic; padding: 20px 0; }
 
+  /* LIGHTBOX */
   .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 200; align-items: center; justify-content: center; }
   .lightbox.open { display: flex; }
   .lightbox-img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
   .lightbox-close { position: absolute; top: 24px; right: 32px; color: rgba(255,255,255,0.6); font-size: 32px; cursor: pointer; line-height: 1; }
   .lightbox-close:hover { color: white; }
 
+  /* UPDATES */
   .update-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 12px; }
   .update-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 12px; }
   .update-type { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-dark); background: var(--green-light); padding: 3px 10px; border-radius: 100px; }
@@ -133,18 +114,59 @@
   .update-img { width: 100%; border-radius: 10px; margin-top: 14px; object-fit: cover; max-height: 280px; }
   .no-updates { font-size: 14px; color: var(--ink-muted); font-style: italic; padding: 20px 0; }
 
-  .claim-banner { background: var(--ink); color: white; border-radius: 16px; padding: 28px 32px; margin-top: 48px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  /* PASSPORTS */
+  .passport-card {
+    background: white; border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px 24px; margin-bottom: 12px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .passport-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: var(--green-light); display: flex; align-items: center;
+    justify-content: center; font-size: 22px;
+  }
+  .passport-info { flex: 1; min-width: 0; }
+  .passport-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .passport-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.55; margin-bottom: 8px; }
+  .passport-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .passport-pill {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    background: var(--green-light); color: var(--green-dark);
+    padding: 3px 10px; border-radius: 100px;
+  }
+  .passport-pill.gold { background: #FEF3DC; color: var(--gold); }
+
+  /* CLAIM BANNER */
+  .claim-banner {
+    background: var(--ink); color: white; border-radius: 16px;
+    padding: 28px 32px; margin-top: 48px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+  }
   .claim-banner-text h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
   .claim-banner-text p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.5; }
-  .claim-btn { background: var(--green); color: white; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+  .claim-btn {
+    background: var(--green); color: white; padding: 12px 24px; border-radius: 100px;
+    font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+    transition: background 0.2s;
+  }
   .claim-btn:hover { background: var(--green-dark); }
 
-  .cta-banner { background: var(--green-light); border-radius: 16px; padding: 32px; margin-top: 48px; text-align: center; }
+  /* CTA */
+  .cta-banner {
+    background: var(--green-light); border-radius: 16px;
+    padding: 32px; margin-top: 48px; text-align: center;
+  }
   .cta-banner h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
   .cta-banner p { font-size: 14px; color: var(--ink-muted); margin-bottom: 20px; line-height: 1.6; }
-  .cta-banner a { display: inline-block; background: var(--ink); color: white; padding: 12px 28px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .cta-banner a {
+    display: inline-block; background: var(--ink); color: white;
+    padding: 12px 28px; border-radius: 100px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: background 0.2s;
+  }
   .cta-banner a:hover { background: var(--green-dark); }
 
+  /* FOOTER */
   footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 48px; text-align: center; font-size: 13px; margin-top: 80px; }
   footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
   footer a:hover { color: rgba(255,255,255,0.7); }
@@ -170,6 +192,7 @@
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <a href="https://draughtleague.com" class="nav-logo">
     <img src="/assets/icon.png" alt="DraughtLeague" class="nav-logo-icon">
@@ -183,12 +206,15 @@
   </div>
 </nav>
 
+<!-- PAGE CONTENT -->
 <div class="page">
+  <!-- Loading state -->
   <div class="state-box" id="loading-state">
     <div class="spinner"></div>
     <p>Loading venue…</p>
   </div>
 
+  <!-- Error state -->
   <div class="state-box" id="error-state" style="display:none;">
     <p style="font-size:48px;">🍺</p>
     <p style="font-size:20px;font-weight:600;margin-top:12px;color:var(--ink);">Venue not found</p>
@@ -196,8 +222,10 @@
     <a href="https://draughtleague.com" style="display:inline-block;margin-top:24px;color:var(--green);font-weight:600;">← Back to DraughtLeague</a>
   </div>
 
+  <!-- Venue content -->
   <div id="venue-content" style="display:none;">
 
+    <!-- Breadcrumb -->
     <div class="breadcrumb">
       <a href="https://draughtleague.com">DraughtLeague</a>
       <span class="breadcrumb-sep">›</span>
@@ -208,6 +236,7 @@
       <span id="bc-name"></span>
     </div>
 
+    <!-- Venue header -->
     <div class="venue-header">
       <div class="venue-type-badge" id="venue-emoji"></div>
       <div class="venue-header-info">
@@ -217,15 +246,11 @@
           <span class="venue-meta-sep">·</span>
           <span class="venue-type-pill" id="venue-type-pill"></span>
         </div>
-        <div id="venue-address" style="display:none; font-size:14px; color:var(--ink-muted); margin-bottom:6px;"></div>
-        <a id="venue-maps-link" href="#" target="_blank" rel="noopener"
-           style="display:none; align-items:center; gap:6px; font-size:13px; color:var(--green); font-weight:500; text-decoration:none; margin-bottom:4px;">
-          🗺️ Open in Maps
-        </a>
         <div class="venue-links" id="venue-links"></div>
       </div>
     </div>
 
+    <!-- Stats -->
     <div class="stat-row">
       <div class="stat-box">
         <div class="stat-num" id="stat-checkins">—</div>
@@ -237,41 +262,23 @@
       </div>
     </div>
 
-    <!-- AMENITIES -->
-    <div id="amenities-section" style="display:none;">
-      <div class="section-head">At a glance</div>
-      <div class="amenities-grid" id="amenities-grid"></div>
-    </div>
-
-    <!-- HOURS -->
-    <div id="hours-section" style="display:none;">
-      <div class="section-head">Hours</div>
-      <div class="hours-card" id="hours-card"></div>
-      <div class="hours-tz" id="hours-tz"></div>
-    </div>
-
-    <!-- FOOD -->
-    <div id="food-section" style="display:none;">
-      <div class="section-head">Food</div>
-      <div class="food-section" id="food-details"></div>
-    </div>
-
-    <!-- ADDITIONAL INFO -->
-    <div id="additional-section" style="display:none;">
-      <div class="section-head">Good to know</div>
-      <div class="additional-card" id="additional-info"></div>
-    </div>
-
-    <!-- PHOTOS -->
+    <!-- Featured photos -->
     <div class="section-head">Photos</div>
     <div class="photo-grid" id="photo-grid"></div>
     <p class="no-photos" id="no-photos" style="display:none;">No featured photos yet.</p>
 
-    <!-- UPDATES -->
+    <!-- Owner updates -->
     <div class="section-head">Updates from the venue</div>
     <div id="updates-list"></div>
     <p class="no-updates" id="no-updates" style="display:none;">No updates posted yet.</p>
 
+    <!-- Participating passports (hidden until populated) -->
+    <div id="passports-section" style="display:none;">
+      <div class="section-head">🗺️ Participating Passports</div>
+      <div id="passports-list"></div>
+    </div>
+
+    <!-- Claim banner (shown when unclaimed) -->
     <div class="claim-banner" id="claim-banner" style="display:none;">
       <div class="claim-banner-text">
         <h3>Is this your venue?</h3>
@@ -280,6 +287,7 @@
       <a href="https://draughtleague.com/#for-owners" class="claim-btn">Claim this venue</a>
     </div>
 
+    <!-- CTA -->
     <div class="cta-banner">
       <h3>Join the league</h3>
       <p>Check in here, earn points and compete with friends on DraughtLeague — free on iOS and Android.</p>
@@ -289,11 +297,13 @@
   </div>
 </div>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <span class="lightbox-close" onclick="closeLightbox()">×</span>
   <img class="lightbox-img" id="lightbox-img" src="" alt="">
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo-wrap">
@@ -318,11 +328,6 @@ const _db = window.supabase.createClient(
 
 const TYPE_EMOJI  = { brewery: '🍺', winery: '🍷', distillery: '🥃' };
 const TYPE_LABEL  = { brewery: 'Brewery', winery: 'Winery', distillery: 'Distillery' };
-const DAY_LABELS  = { mon:'Monday', tue:'Tuesday', wed:'Wednesday', thu:'Thursday', fri:'Friday', sat:'Saturday', sun:'Sunday' };
-const DAY_ABBR    = { mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun' };
-const DAY_ORDER   = ['mon','tue','wed','thu','fri','sat','sun'];
-const JS_DAY_MAP  = [null,'mon','tue','wed','thu','fri','sat','sun']; // JS getDay() is 0=Sun
-
 const REGION_NAMES = {
   al:'Alabama',ak:'Alaska',az:'Arizona',ar:'Arkansas',ca:'California',co:'Colorado',
   ct:'Connecticut',de:'Delaware',fl:'Florida',ga:'Georgia',hi:'Hawaii',id:'Idaho',
@@ -333,16 +338,25 @@ const REGION_NAMES = {
   or:'Oregon',pa:'Pennsylvania',ri:'Rhode Island',sc:'South Carolina',sd:'South Dakota',
   tn:'Tennessee',tx:'Texas',ut:'Utah',vt:'Vermont',va:'Virginia',wa:'Washington',
   wv:'West Virginia',wi:'Wisconsin',wy:'Wyoming',dc:'Washington D.C.',
+  // Canada
   on:'Ontario',bc:'British Columbia',ab:'Alberta',qc:'Quebec',ns:'Nova Scotia',
   nb:'New Brunswick',mb:'Manitoba',sk:'Saskatchewan',nl:'Newfoundland',pe:'Prince Edward Island',
+  // UK
   eng:'England',sct:'Scotland',wls:'Wales',nir:'Northern Ireland',
-  nsw:'New South Wales',vic:'Victoria',qld:'Queensland',sa:'South Australia',tas:'Tasmania',
+  // Australia
+  nsw:'New South Wales',vic:'Victoria',qld:'Queensland',wa:'Western Australia',
+  sa:'South Australia',tas:'Tasmania',
+  // Ireland
+  l:'Leinster',m:'Munster',c:'Connacht',u:'Ulster',
 };
 
+// Extract slug from ?slug= query param (set by 404.html redirect)
+// e.g. /venue/us/ma/woburn/lord-hobo-brewing-company → ?slug=us/ma/woburn/lord-hobo-brewing-company
 function parseSlugFromPath() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('slug');
   if (slug) return slug;
+  // Fallback: try reading directly from pathname for future direct routing
   const parts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
   if (parts.length >= 5 && parts[0] === 'venue') return parts.slice(1).join('/');
   return null;
@@ -368,229 +382,37 @@ function closeLightbox() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-// Parse "9:00 AM" to minutes since midnight for comparison
-function parseTime(t) {
-  if (!t) return null;
-  const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
-  if (!m) return null;
-  let h = parseInt(m[1]), min = parseInt(m[2]);
-  const ampm = m[3].toUpperCase();
-  if (ampm === 'PM' && h !== 12) h += 12;
-  if (ampm === 'AM' && h === 12) h = 0;
-  return h * 60 + min;
-}
-
-function isOpenNow(hours, timezone) {
-  if (!hours || !timezone) return null;
-  try {
-    // Get current time in venue's timezone
-    const now = new Date();
-    const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: timezone,
-      weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false,
-    }).formatToParts(now);
-    const dayStr = parts.find(p => p.type === 'weekday')?.value?.toLowerCase()?.slice(0, 3);
-    const h = parseInt(parts.find(p => p.type === 'hour')?.value ?? '0');
-    const min = parseInt(parts.find(p => p.type === 'minute')?.value ?? '0');
-    const nowMins = h * 60 + min;
-    const todayHours = hours[dayStr];
-    if (!todayHours) return false;
-    const open = parseTime(todayHours.open);
-    let close = parseTime(todayHours.close);
-    if (close !== null && close < open) close += 24 * 60; // past midnight
-    return nowMins >= open && nowMins < close;
-  } catch { return null; }
-}
-
-function getTodayKey(timezone) {
-  if (!timezone) return null;
-  try {
-    const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: timezone, weekday: 'short',
-    }).formatToParts(new Date());
-    return parts.find(p => p.type === 'weekday')?.value?.toLowerCase()?.slice(0, 3) ?? null;
-  } catch { return null; }
-}
-
-function renderAmenities(location) {
-  const amenities = [
-    { key: 'dog_friendly',    emoji: '🐕', label: 'Dog friendly' },
-    { key: 'outdoor_seating', emoji: '🌿', label: 'Outdoor seating' },
-    { key: 'food_available',  emoji: '🍔', label: 'Food available' },
-    { key: 'parking',         emoji: '🅿️', label: 'Parking' },
-  ];
-  const active = amenities.filter(a => location[a.key]);
-  if (!active.length) return;
-
-  const grid = document.getElementById('amenities-grid');
-  amenities.forEach(a => {
-    const pill = document.createElement('div');
-    pill.className = 'amenity-pill' + (location[a.key] ? ' active' : '');
-    pill.innerHTML = `<span>${a.emoji}</span> ${a.label}`;
-    grid.appendChild(pill);
-  });
-  document.getElementById('amenities-section').style.display = 'block';
-}
-
-function renderHours(hours, timezone) {
-  if (!hours) return;
-  const hasAnyHours = DAY_ORDER.some(d => hours[d]);
-  if (!hasAnyHours) return;
-
-  const todayKey = getTodayKey(timezone);
-  const card = document.getElementById('hours-card');
-
-  DAY_ORDER.forEach(day => {
-    const row = document.createElement('div');
-    row.className = 'hours-row' + (day === todayKey ? ' today' : '');
-
-    const dayEl = document.createElement('div');
-    dayEl.className = 'hours-day';
-    dayEl.textContent = DAY_LABELS[day];
-    row.appendChild(dayEl);
-
-    const timeEl = document.createElement('div');
-    if (hours[day]) {
-      timeEl.className = 'hours-time';
-      timeEl.textContent = `${hours[day].open} – ${hours[day].close}`;
-    } else {
-      timeEl.className = 'hours-closed';
-      timeEl.textContent = 'Closed';
-    }
-    row.appendChild(timeEl);
-
-    // Show open/closed badge for today
-    if (day === todayKey) {
-      const open = isOpenNow(hours, timezone);
-      if (open !== null) {
-        const badge = document.createElement('span');
-        badge.className = 'open-badge ' + (open ? 'open' : 'closed');
-        badge.textContent = open ? 'Open now' : 'Closed now';
-        row.appendChild(badge);
-      }
-    }
-
-    card.appendChild(row);
-  });
-
-  if (timezone) {
-    const tzEl = document.getElementById('hours-tz');
-    tzEl.textContent = `Times shown in ${timezone.replace('_', ' ')}`;
-  }
-
-  document.getElementById('hours-section').style.display = 'block';
-}
-
-function renderFood(location) {
-  const hasMenu = location.food_menu_url || location.food_menu_image_url;
-  const hasSchedule = location.food_schedule && location.food_schedule.length > 0;
-  if (!hasMenu && !hasSchedule) return;
-
-  const el = document.getElementById('food-details');
-
-  if (location.food_menu_image_url) {
-    const img = document.createElement('img');
-    img.src = location.food_menu_image_url;
-    img.className = 'food-menu-img';
-    img.alt = 'Menu';
-    img.loading = 'lazy';
-    el.appendChild(img);
-  }
-
-  if (location.food_menu_url) {
-    const links = document.createElement('div');
-    links.className = 'food-menu-links';
-    const a = document.createElement('a');
-    a.href = location.food_menu_url.startsWith('http') ? location.food_menu_url : 'https://' + location.food_menu_url;
-    a.textContent = '🍽️ View menu';
-    a.className = 'venue-link';
-    a.target = '_blank';
-    a.rel = 'noopener';
-    links.appendChild(a);
-    el.appendChild(links);
-  }
-
-  if (hasSchedule) {
-    const title = document.createElement('div');
-    title.className = 'food-schedule-title';
-    title.textContent = 'Food schedule';
-    el.appendChild(title);
-
-    location.food_schedule.forEach(vendor => {
-      const card = document.createElement('div');
-      card.className = 'vendor-card';
-
-      const name = document.createElement('div');
-      name.className = 'vendor-name';
-      name.textContent = vendor.name || 'Food vendor';
-      card.appendChild(name);
-
-      if (vendor.time) {
-        const meta = document.createElement('div');
-        meta.className = 'vendor-meta';
-        meta.textContent = vendor.time;
-        card.appendChild(meta);
-      }
-
-      if (vendor.days && vendor.days.length) {
-        const days = document.createElement('div');
-        days.className = 'vendor-days';
-        vendor.days.forEach(d => {
-          const pill = document.createElement('span');
-          pill.className = 'vendor-day';
-          pill.textContent = DAY_ABBR[d] ?? d;
-          days.appendChild(pill);
-        });
-        card.appendChild(days);
-      }
-
-      if (vendor.menu_url) {
-        const a = document.createElement('a');
-        a.href = vendor.menu_url.startsWith('http') ? vendor.menu_url : 'https://' + vendor.menu_url;
-        a.textContent = '🍽️ Menu';
-        a.className = 'venue-link';
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.style.display = 'block';
-        a.style.marginTop = '8px';
-        card.appendChild(a);
-      }
-
-      el.appendChild(card);
-    });
-  }
-
-  document.getElementById('food-section').style.display = 'block';
-}
-
 async function loadVenue() {
   const slug = parseSlugFromPath();
   if (!slug) { showError(); return; }
 
   const slugParts = slug.split('/');
+  const country = slugParts[0];
   const region  = slugParts[1];
   const city    = slugParts[2];
 
+  // Fetch location by venue_slug
   const { data: location, error } = await _db
     .from('locations')
-    .select(`id, name, city, region, country, address, location_type, website, phone, owner_profile_id, venue_slug,
-             dog_friendly, outdoor_seating, food_available, food_schedule, food_menu_url, food_menu_image_url,
-             parking, hours, timezone, additional_info`)
+    .select('id, name, city, region, country, location_type, website, phone, owner_profile_id, venue_slug')
     .eq('venue_slug', slug)
     .single();
 
   if (error || !location) { showError(); return; }
 
+  // Update page title and meta
   document.title = `${location.name} — DraughtLeague`;
   document.querySelector('meta[name="description"]').setAttribute('content',
     `Check in stats, photos and updates for ${location.name} on DraughtLeague.`
   );
 
+  // Breadcrumb
   const regionLabel = REGION_NAMES[region] ?? region.toUpperCase();
   document.getElementById('bc-region').textContent = regionLabel;
   document.getElementById('bc-city').textContent   = titleCase(city);
   document.getElementById('bc-name').textContent   = location.name;
 
+  // Header
   const locType = location.location_type?.toLowerCase();
   const typeKey = locType?.includes('winery') || locType?.includes('vineyard') ? 'winery'
                 : locType?.includes('distill') ? 'distillery'
@@ -601,47 +423,35 @@ async function loadVenue() {
   document.getElementById('venue-city').textContent     = `${titleCase(city)}, ${region.toUpperCase()}`;
   document.getElementById('venue-type-pill').textContent = TYPE_LABEL[typeKey] ?? 'Venue';
 
-  // Address + Maps link
-  if (location.address) {
-    const addrEl = document.getElementById('venue-address');
-    addrEl.textContent = location.address;
-    addrEl.style.display = 'block';
-    const mapsEl = document.getElementById('venue-maps-link');
-    const mapsQuery = encodeURIComponent(location.address);
-    mapsEl.href = `https://maps.google.com/?q=${mapsQuery}`;
-    mapsEl.style.display = 'inline-flex';
-  }
-
+  // External links
   const linksEl = document.getElementById('venue-links');
   if (location.website) {
     const a = document.createElement('a');
     a.href = location.website.startsWith('http') ? location.website : 'https://' + location.website;
-    a.textContent = '🌐 Website'; a.className = 'venue-link'; a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = '🌐 Website';
+    a.className = 'venue-link';
+    a.target = '_blank';
+    a.rel = 'noopener';
     linksEl.appendChild(a);
   }
   if (location.phone) {
     const a = document.createElement('a');
-    a.href = `tel:${location.phone}`; a.textContent = `📞 ${location.phone}`; a.className = 'venue-link';
+    a.href = `tel:${location.phone}`;
+    a.textContent = `📞 ${location.phone}`;
+    a.className = 'venue-link';
     linksEl.appendChild(a);
   }
 
+  // Stats: total check-ins + unique visitors
   const [ciRes, uvRes] = await Promise.all([
     _db.from('check_ins').select('id', { count: 'exact', head: true }).eq('location_id', location.id),
     _db.from('check_ins').select('profile_id').eq('location_id', location.id),
   ]);
   document.getElementById('stat-checkins').textContent = ciRes.count ?? 0;
-  document.getElementById('stat-visitors').textContent = new Set((uvRes.data ?? []).map(r => r.profile_id)).size;
+  const uniqueVisitors = new Set((uvRes.data ?? []).map(r => r.profile_id)).size;
+  document.getElementById('stat-visitors').textContent = uniqueVisitors;
 
-  // Render new info sections
-  renderAmenities(location);
-  renderHours(location.hours, location.timezone);
-  renderFood(location);
-
-  if (location.additional_info) {
-    document.getElementById('additional-info').textContent = location.additional_info;
-    document.getElementById('additional-section').style.display = 'block';
-  }
-
+  // Featured photos (is_featured = true)
   const { data: photos } = await _db
     .from('check_in_photos')
     .select('id, cloudinary_url, caption, check_in_id, check_ins!inner(location_id)')
@@ -652,16 +462,21 @@ async function loadVenue() {
   const photoGrid = document.getElementById('photo-grid');
   if (photos && photos.length > 0) {
     photos.forEach(p => {
-      const div = document.createElement('div'); div.className = 'photo-item';
+      const div = document.createElement('div');
+      div.className = 'photo-item';
       div.onclick = () => openLightbox(p.cloudinary_url);
       const img = document.createElement('img');
-      img.src = p.cloudinary_url; img.alt = p.caption || location.name; img.loading = 'lazy';
-      div.appendChild(img); photoGrid.appendChild(div);
+      img.src = p.cloudinary_url;
+      img.alt = p.caption || location.name;
+      img.loading = 'lazy';
+      div.appendChild(img);
+      photoGrid.appendChild(div);
     });
   } else {
     document.getElementById('no-photos').style.display = 'block';
   }
 
+  // Owner updates (public, most recent first)
   const { data: updates } = await _db
     .from('owner_updates')
     .select('id, title, content, update_type, image_url, created_at')
@@ -672,7 +487,8 @@ async function loadVenue() {
   const updatesList = document.getElementById('updates-list');
   if (updates && updates.length > 0) {
     updates.forEach(u => {
-      const card = document.createElement('div'); card.className = 'update-card';
+      const card = document.createElement('div');
+      card.className = 'update-card';
       card.innerHTML = `
         <div class="update-header">
           <span class="update-type">${u.update_type ?? 'Update'}</span>
@@ -688,8 +504,63 @@ async function loadVenue() {
     document.getElementById('no-updates').style.display = 'block';
   }
 
-  if (!location.owner_profile_id) document.getElementById('claim-banner').style.display = 'flex';
+  // Participating passports — active only
+  const today = new Date().toISOString().slice(0, 10);
+  const { data: passportStops } = await _db
+    .from('passport_stops')
+    .select('passport_id, passports(id, title, description, start_date, end_date)')
+    .eq('location_id', location.id);
 
+  if (passportStops && passportStops.length > 0) {
+    // Deduplicate by passport id and filter to active
+    const seen = new Set();
+    const activePassports = passportStops
+      .map(s => s.passports)
+      .filter(p => {
+        if (!p || seen.has(p.id)) return false;
+        seen.add(p.id);
+        const started = !p.start_date || p.start_date <= today;
+        const notEnded = !p.end_date || p.end_date >= today;
+        return started && notEnded;
+      });
+
+    if (activePassports.length > 0) {
+      const passportsList = document.getElementById('passports-list');
+      activePassports.forEach(p => {
+        // Count total stops for this passport
+        const stopCount = passportStops.filter(s => s.passport_id === p.id).length;
+        let dateLabel = '';
+        if (p.start_date && p.end_date) {
+          dateLabel = `${formatDate(p.start_date)} – ${formatDate(p.end_date)}`;
+        } else if (p.end_date) {
+          dateLabel = `Ends ${formatDate(p.end_date)}`;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'passport-card';
+        card.innerHTML = `
+          <div class="passport-icon">🗺️</div>
+          <div class="passport-info">
+            <div class="passport-title">${p.title}</div>
+            ${p.description ? `<div class="passport-desc">${p.description}</div>` : ''}
+            <div class="passport-meta">
+              <span class="passport-pill">${stopCount} stop${stopCount !== 1 ? 's' : ''}</span>
+              ${dateLabel ? `<span class="passport-pill gold">📅 ${dateLabel}</span>` : ''}
+            </div>
+          </div>
+        `;
+        passportsList.appendChild(card);
+      });
+      document.getElementById('passports-section').style.display = 'block';
+    }
+  }
+
+  // Show claim banner if unclaimed
+  if (!location.owner_profile_id) {
+    document.getElementById('claim-banner').style.display = 'flex';
+  }
+
+  // Show content
   document.getElementById('loading-state').style.display = 'none';
   document.getElementById('venue-content').style.display = 'block';
 }
