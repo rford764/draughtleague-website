@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ & Help — DraughtLeague</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://draughtleague.com/faq.html">
+<meta property="og:title" content="FAQ & Help — DraughtLeague">
+<meta property="og:description" content="Answers to common questions about DraughtLeague for members, commissioners, and venue owners.">
+<meta property="og:image" content="https://draughtleague.com/assets/icon.png">
+<meta property="og:site_name" content="DraughtLeague">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --cream: #FAF7F0;
+    --ink: #1A1A18;
+    --ink-muted: #5A5A54;
+    --border: rgba(26,26,24,0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    background-image: url('./assets/beer_bg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(250,247,240,0.93);
+    z-index: -1;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 48px;
+    background: rgba(250,247,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
+  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+  .nav-logo-text span { color: var(--green); }
+  .nav-back { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-back:hover { color: var(--ink); }
+
+  /* PAGE */
+  .page { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
+  .page-label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+  .page-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); line-height: 1.1; letter-spacing: -0.8px; margin-bottom: 12px; color: var(--ink); }
+  .page-sub { font-size: 17px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 40px; }
+
+  /* TABS */
+  .tab-row { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 10px 24px; border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: white; font-size: 14px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink-muted); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .tab-btn.active { background: var(--ink); border-color: var(--ink); color: white; }
+
+  /* FAQ ITEMS */
+  .faq-list { display: flex; flex-direction: column; gap: 8px; }
+  .faq-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .faq-item:hover { box-shadow: 0 4px 20px rgba(26,26,24,0.06); }
+  .faq-q {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 24px; background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    color: var(--ink); text-align: left; gap: 16px;
+  }
+  .faq-q .chevron { flex-shrink: 0; font-size: 12px; color: var(--ink-muted); transition: transform 0.2s; }
+  .faq-q.open .chevron { transform: rotate(180deg); }
+  .faq-a {
+    padding: 0 24px 20px;
+    font-size: 15px; color: var(--ink-muted); line-height: 1.7;
+    display: none;
+  }
+  .faq-a.open { display: block; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 48px; text-align: center; font-size: 13px; margin-top: 80px; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.7); }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-logo-wrap { display: flex; align-items: center; gap: 8px; }
+  .footer-logo-icon { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; opacity: 0.9; }
+  .footer-logo-text { font-family: 'Playfair Display', serif; font-size: 18px; color: white; }
+  .footer-logo-text span { color: var(--green); }
+  .footer-links { display: flex; gap: 24px; }
+
+  @media (max-width: 600px) {
+    nav { padding: 12px 20px; }
+    .page { padding: 100px 16px 60px; }
+    footer { padding: 32px 24px; }
+    .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="./assets/icon.png" alt="DraughtLeague" class="nav-logo-icon">
+    <span class="nav-logo-text">Draught<span>League</span></span>
+  </a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+
+<div class="page">
+  <div class="page-label">Help center</div>
+  <h1 class="page-title">FAQ & Help</h1>
+  <p class="page-sub">Find answers for members, commissioners, and venue owners. Can't find what you need? <a href="mailto:roger@draughtleague.com" style="color:var(--green);">Contact us</a>.</p>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('member', this)">Member</button>
+    <button class="tab-btn" onclick="switchTab('commissioner', this)">Commissioner</button>
+    <button class="tab-btn" onclick="switchTab('owner', this)">Venue Owner</button>
+  </div>
+
+  <div class="faq-list" id="faq-list"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo-wrap">
+      <img src="./assets/icon.png" alt="DraughtLeague" class="footer-logo-icon">
+      <span class="footer-logo-text">Draught<span>League</span></span>
+    </div>
+    <div class="footer-links">
+      <a href="https://rford764.github.io/draughtleague-legal/privacy-policy.html">Privacy policy</a>
+      <a href="https://rford764.github.io/draughtleague-legal/delete-account.html">Delete account</a>
+      <a href="mailto:roger@draughtleague.com">Contact</a>
+    </div>
+    <div>© 2026 DraughtLeague</div>
+  </div>
+</footer>
+
+<script>
+const FAQS = {
+  member: [
+    { q: 'What is DraughtLeague?', a: 'DraughtLeague is a social league app for beer, wine, and spirits lovers. Players join leagues, visit breweries, wineries, and distilleries, and check in while sampling drinks to earn points. Compete with friends on the leaderboard and turn every outing into a fun, shared game. We don\'t rate venues — we celebrate them. Every check-in is a vote of support for the people behind the bar.' },
+    { q: 'How do I join a league?', a: 'Go to the Leagues tab and browse public leagues, or enter an invite code from a commissioner. Private leagues require a join request that the commissioner will approve.' },
+    { q: 'How do check-ins work?', a: 'Tap the Check In tab, search for a venue near you, answer a few questions about your visit and submit. You\'ll earn points based on your answers, photos, and bonus questions.' },
+    { q: 'How are points calculated?', a: 'Points are awarded for check-ins, drink selections, photo uploads, bringing a first timer, and bonus questions. Each league may have custom scoring — tap "How scoring works" on the Leagues tab to see the details.' },
+    { q: 'What are seasons?', a: 'Leagues run in seasons (typically 3, 6 or 12 months). At the end of a season the leaderboard resets and a winner is crowned. Past season stats are always available under Previous Seasons.' },
+    { q: 'Can I be in multiple leagues?', a: 'Yes! You can join as many leagues as you like. Use the league switcher on the dashboard to switch between them.' },
+    { q: 'How do I earn photo points?', a: 'When checking in, tap "Add photos" and upload photos of your visit. Tag them by category (beverage, venue, group etc.) to earn bonus points for each new category.' },
+    { q: 'What are Passports?', a: 'Passports are multi-venue adventure trails created by venue owners. Each passport has a series of stops — visit each stop, scan the QR code, and earn stamp points. Complete all stops to earn a league bonus. Browse available passports from the Check In tab or tap 🗺️ My Passports on your profile.' },
+    { q: 'How do I complete a Passport stop?', a: 'Open the passport from 🗺️ Browse Passports, tap a stop, then tap Scan. The app will use your camera to scan the QR code at the venue. You must be within 300 meters of the venue for the scan to count. Each stop can only be scanned once.' },
+    { q: 'What are venue updates?', a: 'Venue owners can post updates about new tap lists, events and promotions. These appear as an amber notice on venue cards in the Check In tab. Manage which venues notify you in Profile → Venue notifications.' },
+    { q: 'How do drinking buddies work?', a: 'Send a buddy request to any league member from their profile. Once accepted you can see each other\'s visits and preferences. Find buddies in Profile → Drinking buddies.' },
+    { q: 'How do I become a venue owner?', a: 'Go to Profile → Apply as venue owner and fill in your business details. An admin will review your application and approve it.' },
+    { q: 'Why don\'t you rate venues?', a: 'Every brewery, winery, and distillery represents someone\'s dream — years of passion, investment, and craft poured into every pour. Even if a venue isn\'t your personal favorite, it is someone else\'s. DraughtLeague exists to celebrate every venue, not judge them. We\'re a discovery and competition app, not a review platform.' },
+  ],
+  commissioner: [
+    { q: 'What does a commissioner do?', a: 'Commissioners create and manage leagues. You control the league name, type (brewery, winery, distillery), scoring rules, season dates, membership, and communication with members. You can also enrol passports into your league to give members extra point-earning opportunities.' },
+    { q: 'How do I create a league?', a: 'Go to the Leagues tab and tap "Create League". Choose a league type, set a name, configure scoring, and set your season dates. You can make your league public (open to join requests) or private (invite code only).' },
+    { q: 'What is the difference between public and private leagues?', a: 'Public leagues appear in the browse list and members can send a join request. Private leagues are hidden — members can only join with your invite code. Both require your approval for join requests.' },
+    { q: 'How do I approve or decline join requests?', a: 'Open the Commissioner tab and tap Requests. You will see pending join requests with the member\'s name and profile. Tap Approve or Decline. Approved members are added immediately.' },
+    { q: 'How do I add a co-commissioner?', a: 'In the Commissioner tab go to Members, find the member you want to promote, and assign them the co-commissioner role. Co-commissioners have access to the same management tools as the primary commissioner.' },
+    { q: 'How does custom scoring work?', a: 'In the Commissioner tab go to Scoring. You can adjust point values for base check-ins, drink categories, photo tags, first timer bonus, and bonus questions. Changes apply to all future check-ins in the current season.' },
+    { q: 'How do I manage seasons?', a: 'Season dates are set when creating the league and can be updated in Commissioner → Settings. At the end of a season the leaderboard freezes, a winner is recorded, and you can start a new season. Members can always view past season results.' },
+    { q: 'How do Passports work for my league?', a: 'When a venue owner creates a passport that matches your league type, your league is automatically enrolled. You can view enrolled passports in the Commissioner tab under 🗺️. From there you can adjust the stamp points (per stop) and bonus points (for full completion) for your league, or remove a passport if it is not a good fit.' },
+    { q: 'How do I message my members?', a: 'Tap the ✉️ tab in the Commissioner panel to compose a message. It will be delivered as a push notification and stored in each member\'s inbox. Use this for season announcements, rule changes, or event invites.' },
+    { q: 'Can I remove a member from my league?', a: 'Yes. Go to Commissioner → Members, find the member, and tap Remove. Their check-in history and points for the season are retained in the records but they will no longer appear on the active leaderboard.' },
+  ],
+  owner: [
+    { q: 'What is a venue owner account?', a: 'A venue owner account lets you manage your business profile on DraughtLeague, post updates for members, set your hours and amenities, and create Passports. Apply via Profile → Apply as venue owner — an admin will review and approve your application.' },
+    { q: 'Why is DraughtLeague different from review apps?', a: 'DraughtLeague doesn\'t rate or rank venues. We believe every brewery, winery, and distillery represents someone\'s dream — years of passion, investment, and craft. Our app celebrates every venue. Members earn points for visiting and exploring — not for leaving ratings. Every check-in at your venue is a show of support.' },
+    { q: 'How do I set up my venue profile?', a: 'From the Owner dashboard go to Edit Profile to update your venue name, description, address, website, and photos. Keep your profile complete so members can find you easily in the Check In search.' },
+    { q: 'How do I set my hours and amenities?', a: 'Go to Owner → Venue Info. Set your opening hours for each day of the week (or mark as closed). Toggle amenities such as dog friendly, outdoor seating, parking, and food available. Hours are shown to members on venue cards and your venue page.' },
+    { q: 'How do I post venue updates?', a: 'From the Owner dashboard tap Post Update. Choose an update type (tap list, event, promotion etc.), add a title and details, and optionally schedule a publish date. Updates appear as an amber 📣 notice on your venue card in the Check In tab for nearby members.' },
+    { q: 'What are Passports and how do I create one?', a: 'Passports are multi-venue adventure trails that give members a reason to explore multiple locations. Go to Owner → Passports and tap Create Passport. Add a title, description, and start/end dates. Then add your own venues as stops and invite other owners to add their venues.' },
+    { q: 'How do I add stops to a Passport?', a: 'When creating or editing a passport, tap Add Stop to add any of your own venues. Each stop gets a unique QR code that members scan on-site to record their visit. Tap the QR icon next to a stop to view or share the code.' },
+    { q: 'How do I invite other owners to join my Passport?', a: 'In Owner → Passports, open your passport and tap Invite Owner. Search by venue name and send the invite. The other owner will see the invite in their Passports screen and can accept or decline. Accepted invites automatically add their venue as a stop.' },
+    { q: 'How do leagues interact with my Passport?', a: 'When you publish a passport, leagues matching your passport\'s venue type are automatically enrolled. Commissioners can set how many points members earn per stop and for completing the full passport. You do not need to manage league enrollments — it happens automatically.' },
+    { q: 'How do I view my venue\'s performance?', a: 'The Owner dashboard shows a summary of recent check-ins and passport progress at your venue. A full analytics dashboard with check-ins over time, unique visitors, and popular days is coming soon.' },
+  ],
+};
+
+let currentTab = 'member';
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFaqs();
+}
+
+function renderFaqs() {
+  const list = document.getElementById('faq-list');
+  list.innerHTML = '';
+  FAQS[currentTab].forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'faq-item';
+    div.innerHTML = `
+      <button class="faq-q" onclick="toggleFaq(${i}, this)">
+        <span>${item.q}</span>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="faq-a" id="faq-a-${i}">${item.a}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function toggleFaq(i, btn) {
+  const answer = document.getElementById('faq-a-' + i);
+  const isOpen = answer.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(b => b.classList.remove('open'));
+  // Open clicked if it was closed
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+
+// Init
+renderFaqs();
+
+// Open FAQ from URL hash e.g. faq.html#passport
+const hash = window.location.hash.slice(1);
+if (hash) {
+  const allFaqs = [...FAQS.member, ...FAQS.commissioner, ...FAQS.owner];
+  // Find which tab contains the matching question
+  for (const [tab, items] of Object.entries(FAQS)) {
+    const idx = items.findIndex(f => f.q.toLowerCase().includes(hash.toLowerCase()));
+    if (idx !== -1) {
+      const btn = document.querySelectorAll('.tab-btn')[['member','commissioner','owner'].indexOf(tab)];
+      switchTab(tab, btn);
+      setTimeout(() => toggleFaq(idx, document.querySelectorAll('.faq-q')[idx]), 100);
+      break;
+    }
+  }
+}
+</script>
+
+</body>
+</html>
