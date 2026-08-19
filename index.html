@@ -269,7 +269,7 @@
         </a>
       </div>
       <div class="hero-qr-wrap">
-        <div id="hero-qr"></div>
+        <img src="./assets/qr_draughtleague.png" alt="Scan to open DraughtLeague" style="width:80px;height:80px;border-radius:10px;border:3px solid white;box-shadow:0 2px 12px rgba(26,26,24,0.1);">
         <span class="hero-qr-label">Scan to open</span>
       </div>
     </div>
@@ -396,21 +396,12 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
   const _db = window.supabase.createClient(
     'https://pkjpwivtubjdteosmznf.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBranB3aXZ0dWJqZHRlb3Ntem5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMjQ1NTgsImV4cCI6MjA5MDkwMDU1OH0.l3BHnK6kjhdXcevgSCJnDaLmReQAU5KQXlxRBQccvnI'
   );
-
-  new QRCode(document.getElementById('hero-qr'), {
-    text: 'https://draughtleague.com',
-    width: 88,
-    height: 88,
-    colorDark: '#1A1A18',
-    colorLight: '#FAF7F0',
-    correctLevel: QRCode.CorrectLevel.M,
-  });
 
   let selectedDevice = null;
 
